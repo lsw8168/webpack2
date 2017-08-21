@@ -1,0 +1,18 @@
+{
+  "name": "webpack-101",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "webpack -d --watch",
+    "prod": "webpack -p"
+  },
+  "dependencies": {},
+  "main": "app.js",
+  "author": "wonni",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.5.5"
+  }
+}
