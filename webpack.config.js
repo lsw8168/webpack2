@@ -3,6 +3,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const bootstrapEntryPoints = require('./webpack.bootstrap.config');
+const glob = require('glob');
+const PurifyCSSPlugin = require('purifycss-webpack');
 
 const isProd = process.env.NODE_ENV === 'production';
 const cssDev = ['style-loader', 'css-loader', 'sass-loader'];
@@ -89,6 +91,10 @@ module.exports = {
             allChunks: true
         }),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin()
+        new webpack.NamedModulesPlugin(),
+        new PurifyCSSPlugin({
+            // Give paths to parse for rules. These should be absolute!
+            paths: glob.sync(path.join(__dirname, 'src/*.html')),
+        })
     ]
 }
