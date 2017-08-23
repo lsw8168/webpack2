@@ -10,7 +10,7 @@ body {
   margin: 0;
 }
 
-footer,header,menu {
+footer,header,main,menu {
   display: block;
 }
 
