@@ -19,8 +19,8 @@ const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoint
 
 module.exports = {
     entry: {
-        app: './src/app.js',
-        contact: './src/contact.js',
+        app: './src/app',
+        contact: './src/contact',
         bootstrap: bootstrapConfig
     },
     output: {
@@ -86,7 +86,7 @@ module.exports = {
             template: './src/contact.html'
         }),
         new ExtractTextPlugin({
-            filename: '/css/[name].css',
+            filename: './css/[name].css',
             disable: !isProd,
             allChunks: true
         }),
