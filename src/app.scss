@@ -1,7 +1,11 @@
-body {
+@import './bootstrap/customizations.scss';
+
+html, body {
     height: 100%;
-    background: #ccc url('./images/logo_kisa.png') center center no-repeat;
-    p {
-        color: red
+    min-height: 100%;
+}
+body {
+    h1 {
+        color: $brand-success;
     }
 }

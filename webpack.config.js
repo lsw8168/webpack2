@@ -1,7 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const bootstrapEntryPoints = require('./webpack.bootstrap.config');
 
 const isProd = process.env.NODE_ENV === 'production';
 const cssDev = ['style-loader', 'css-loader', 'sass-loader'];
@@ -12,14 +13,17 @@ const cssProd = ExtractTextPlugin.extract({
 });
 const cssConfig = isProd ? cssProd : cssDev;
 
+const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev;
+
 module.exports = {
     entry: {
         app: './src/app.js',
-        contact: './src/contact.js'
+        contact: './src/contact.js',
+        bootstrap: bootstrapConfig
     },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: '[name].bundle.js'
+        filename: './js/[name].bundle.js'
     },
     module: {
       rules: [
@@ -39,6 +43,18 @@ module.exports = {
                   'file-loader?name=images/[name].[ext]',
                   'image-webpack-loader'
               ]
+          },
+          {
+              test: /\.(woff2?|svg)$/,
+              use: 'url-loader?limit=10000&name=fonts/[name].[ext]'
+          },
+          {
+              test: /\.(ttf|eot)$/,
+              use: 'file-loader?name=fonts/[name].[ext]'
+          },
+          {
+              test: /bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/,
+              use: 'imports-loader?jQuery=jquery'
           }
       ]
     },
@@ -68,7 +84,7 @@ module.exports = {
             template: './src/contact.html'
         }),
         new ExtractTextPlugin({
-            filename: 'app.css',
+            filename: '/css/[name].css',
             disable: !isProd,
             allChunks: true
         }),
