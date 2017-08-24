@@ -14,14 +14,13 @@ const cssProd = ExtractTextPlugin.extract({
     publicPath: '/dist'
 });
 const cssConfig = isProd ? cssProd : cssDev;
-
 const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev;
 
 module.exports = {
     entry: {
         app: './src/app',
         contact: './src/contact',
-        bootstrap: bootstrapConfig
+        vendor: bootstrapConfig
     },
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -76,12 +75,13 @@ module.exports = {
             // },
             hash: true,
             excludeChunks: ['contact'],
+            filename: 'index.html',
             template: './src/index.html'
         }),
         new HtmlWebpackPlugin({
             title: 'Content Page',
             hash: true,
-            chunks: ['contact'],
+            excludeChunks: ['app'],
             filename: 'contact.html',
             template: './src/contact.html'
         }),
@@ -90,11 +90,14 @@ module.exports = {
             disable: !isProd,
             allChunks: true
         }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "vendor"
+        }),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin(),
-        new PurifyCSSPlugin({
-            // Give paths to parse for rules. These should be absolute!
-            paths: glob.sync(path.join(__dirname, 'src/*.html')),
-        })
+        new webpack.NamedModulesPlugin()
+        // new PurifyCSSPlugin({
+        //     // Give paths to parse for rules. These should be absolute!
+        //     paths: glob.sync(path.join(__dirname, 'src/*.html')),
+        // })
     ]
 }

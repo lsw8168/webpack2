@@ -1,7 +1,7 @@
 const css = require('./app.scss');
 const echarts = require('echarts');
 
-console.log('test');
+console.log('index page');
 
 // initialize echarts instance with prepared DOM
 var myChart = echarts.init(document.getElementById('main'));
